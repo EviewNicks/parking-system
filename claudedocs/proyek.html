@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Monitoring Parkir Realtime</title>
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 40px;
+            background: #f8f9fa;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .slot {
+            padding: 20px;
+            margin: 15px;
+            border: 2px solid #333;
+            border-radius: 12px;
+            width: 250px;
+            display: inline-block;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+
+        .terisi {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .kosong {
+            background: #51cf66;
+            color: white;
+        }
+
+        .update-time {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Status Parkir Realtime 🚗</h1>
+
+    <div id="slot1" class="slot kosong">
+        <h2>Slot 1</h2>
+        <p>Status: <span id="status1">Loading...</span></p>
+        <p>Jarak: <span id="jarak1">0</span> cm</p>
+        <p class="update-time">Last Update: <span id="update1">-</span></p>
+    </div>
+
+    <script>
+        // Ganti dengan data Supabase Anda
+        const SUPABASE_URL = "https://hbamjfskfcatsnboenmr.supabase.co";
+        const SUPABASE_KEY =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhiYW1qZnNrZmNhdHNuYm9lbm1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MTY3NTEsImV4cCI6MjA3NDI5Mjc1MX0.TtMGDbhQVBvq9UsilKPefYbaatEaPF7s2ciimDf-bP8";
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        function updateUI(slot, status, jarak, updatedAt)
+        {
+            document.getElementById("status" + slot).textContent = status;
+            document.getElementById("jarak" + slot).textContent = jarak;
+            document.getElementById("update" + slot).textContent = new Date(
+                updatedAt
+            ).toLocaleString();
+
+            const slotDiv = document.getElementById("slot" + slot);
+            if (status.toLowerCase() === "terisi")
+            {
+                slotDiv.classList.remove("kosong");
+                slotDiv.classList.add("terisi");
+            } else
+            {
+                slotDiv.classList.remove("terisi");
+                slotDiv.classList.add("kosong");
+            }
+        }
+
+        // Load data awal
+        async function loadData()
+        {
+            let { data, error } = await client
+                .from("parkingg")
+                .select("*")
+                .eq("id", 1);
+            if (data && data.length > 0)
+            {
+                let row = data[0];
+                updateUI(row.slot, row.status, row.jarak, row.created_at);
+            }
+        }
+        loadData();
+
+        // Subscribe realtime
+        client
+            .channel("parking-realtime")
+            .on(
+                "postgres_changes",
+                { event: "*", schema: "public", table: "parkingg" },
+                (payload) =>
+                {
+                    console.log("Perubahan:", payload.new);
+                    if (payload.new.id === 1)
+                    {
+                        updateUI(
+                            payload.new.slot,
+                            payload.new.status,
+                            payload.new.jarak,
+                            payload.new.created_at
+                        );
+                    }
+                }
+            )
+            .subscribe();
+    </script>
+</body>
+
+</html>
