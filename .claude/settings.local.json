@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "mcp__sequential-thinking__sequentialthinking"
+      "mcp__sequential-thinking__sequentialthinking",
+      "mcp__playwright__playwright_screenshot",
+      "mcp__playwright__playwright_close"
     ],
     "deny": [],
     "ask": []
