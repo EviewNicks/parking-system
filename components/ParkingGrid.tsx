@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
-import { useParkingData } from '@/hooks/useParkingData'
-import ParkingSlot from './ParkingSlot'
+import { useParkingData } from "@/hooks/useParkingData";
+import ParkingSlot from "./ParkingSlot";
+import ParkingGate from "./ParkingGate";
 
 export default function ParkingGrid() {
-  const { slots, isLoading, isConnected, error, refetch } = useParkingData()
+  const { slots, isLoading, isConnected, error, refetch } = useParkingData();
 
   if (isLoading) {
     return (
@@ -14,7 +15,7 @@ export default function ParkingGrid() {
           <p className="text-white mt-4 text-lg">Loading parking data...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -32,7 +33,7 @@ export default function ParkingGrid() {
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -48,12 +49,22 @@ export default function ParkingGrid() {
 
         {/* Connection Status */}
         <div className="flex items-center justify-center mt-4">
-          <div className={`w-3 h-3 rounded-full mr-2 ${isConnected ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
-          <span className={`text-sm ${isConnected ? 'text-green-300' : 'text-red-300'}`}>
-            {isConnected ? 'CONNECTED' : 'DISCONNECTED'}
+          <div
+            className={`w-3 h-3 rounded-full mr-2 ${
+              isConnected ? "bg-green-400 animate-pulse" : "bg-red-400"
+            }`}
+          ></div>
+          <span
+            className={`text-sm ${
+              isConnected ? "text-green-300" : "text-red-300"
+            }`}
+          >
+            {isConnected ? "CONNECTED" : "DISCONNECTED"}
           </span>
         </div>
       </div>
+
+      <ParkingGate />
 
       {/* Parking Lot Layout */}
       <div className="max-w-6xl mx-auto">
@@ -80,7 +91,9 @@ export default function ParkingGrid() {
           {/* Middle Road */}
           <div className="my-8 flex items-center justify-center">
             <div className="flex-1 h-1 bg-yellow-400 opacity-50"></div>
-            <div className="px-4 text-yellow-400 text-sm font-mono">DRIVE WAY</div>
+            <div className="px-4 text-yellow-400 text-sm font-mono">
+              DRIVE WAY
+            </div>
             <div className="flex-1 h-1 bg-yellow-400 opacity-50"></div>
           </div>
 
@@ -103,19 +116,22 @@ export default function ParkingGrid() {
         <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
           <div className="bg-green-500 text-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold">
-              {slots.filter(s => s.status.toLowerCase() === 'kosong').length}
+              {slots.filter((s) => s.status.toLowerCase() === "kosong").length}
             </div>
             <div className="text-sm">Available</div>
           </div>
           <div className="bg-red-500 text-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold">
-              {slots.filter(s => s.status.toLowerCase() === 'terisi').length}
+              {slots.filter((s) => s.status.toLowerCase() === "terisi").length}
             </div>
             <div className="text-sm">Occupied</div>
           </div>
           <div className="bg-yellow-500 text-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold">
-              {slots.filter(s => s.status.toLowerCase() === 'maintenance').length}
+              {
+                slots.filter((s) => s.status.toLowerCase() === "maintenance")
+                  .length
+              }
             </div>
             <div className="text-sm">Maintenance</div>
           </div>
@@ -126,5 +142,5 @@ export default function ParkingGrid() {
         </div>
       </div>
     </div>
-  )
+  );
 }
