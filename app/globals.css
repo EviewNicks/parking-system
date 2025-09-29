@@ -4,6 +4,7 @@
 
 /* CSS Layers for proper cascade control */
 @layer base {
+
   /* Shadcn/ui base styles */
   :root {
     --background: 0 0% 100%;
@@ -87,7 +88,7 @@
   }
 
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
 
   body {
@@ -97,6 +98,7 @@
 }
 
 @layer components {
+
   /* 3D Parking System Components */
   .perspective-parking {
     perspective: var(--perspective-distance);
@@ -110,8 +112,7 @@
   }
 
   .transform-3d-slot:hover {
-    transform: rotateX(var(--slot-rotation-x)) rotateY(var(--slot-rotation-y))
-               scale(var(--hover-scale)) translateY(var(--hover-translate-y));
+    transform: rotateX(var(--slot-rotation-x)) rotateY(var(--slot-rotation-y)) scale(var(--hover-scale)) translateY(var(--hover-translate-y));
   }
 
   .gpu-accelerated {
@@ -143,6 +144,7 @@
 }
 
 @layer utilities {
+
   /* Custom Animation Classes - using Tailwind config animations */
   .animate-slot-appear {
     animation: slot-appear var(--animation-very-slow) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -203,7 +205,10 @@
 
   /* Performance Optimizations */
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -243,7 +248,8 @@
       --glow-intensity: 5px;
     }
 
-    *:focus, *:focus-visible {
+    *:focus,
+    *:focus-visible {
       outline: 4px solid #FFFFFF;
       outline-offset: 2px;
       box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.5);
