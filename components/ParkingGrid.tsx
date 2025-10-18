@@ -2,7 +2,6 @@
 
 import { useParkingData } from "@/hooks/useParkingData";
 import ParkingSlot from "./ParkingSlot";
-import ParkingGate from "./ParkingGate";
 
 export default function ParkingGrid() {
   const { slots, isLoading, isConnected, error, refetch } = useParkingData();
@@ -37,14 +36,14 @@ export default function ParkingGrid() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-700 to-slate-900 py-8 px-4">
+    <div>
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-white mb-2">
           🚗 Smart Parking System
         </h1>
         <p className="text-slate-300 text-lg">
-          Real-time Monitoring • 6 Parking Slots
+          Real-time Monitoring • 5 Parking Slots
         </p>
 
         {/* Connection Status */}
@@ -64,15 +63,8 @@ export default function ParkingGrid() {
         </div>
       </div>
 
-      <ParkingGate />
-
       {/* Parking Lot Layout */}
-      <div className="max-w-6xl mx-auto">
-        {/* Entry Arrow */}
-        <div className="text-center mb-6">
-          <div className="text-yellow-400 text-2xl">⬇️ ENTRY</div>
-        </div>
-
+      <div>
         {/* Parking Grid - Realistic Layout */}
         <div className="relative bg-slate-900 rounded-2xl p-8 shadow-2xl">
           {/* Road Markings */}
@@ -88,7 +80,7 @@ export default function ParkingGrid() {
             ))}
           </div>
 
-          {/* Middle Road */}
+          {/* Middle Road - Driveway */}
           <div className="my-8 flex items-center justify-center">
             <div className="flex-1 h-1 bg-yellow-400 opacity-50"></div>
             <div className="px-4 text-yellow-400 text-sm font-mono">
@@ -97,19 +89,14 @@ export default function ParkingGrid() {
             <div className="flex-1 h-1 bg-yellow-400 opacity-50"></div>
           </div>
 
-          {/* Second Grid - Slots 4-6 */}
+          {/* Second Grid - Slots 4-5 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {slots.slice(3, 6).map((slot) => (
+            {slots.slice(3, 5).map((slot) => (
               <div key={slot.id} className="relative">
                 <ParkingSlot slot={slot} isConnected={isConnected} />
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Exit Arrow */}
-        <div className="text-center mt-6">
-          <div className="text-yellow-400 text-2xl">⬆️ EXIT</div>
         </div>
 
         {/* Statistics Summary */}
@@ -136,7 +123,7 @@ export default function ParkingGrid() {
             <div className="text-sm">Maintenance</div>
           </div>
           <div className="bg-blue-500 text-white p-4 rounded-lg text-center">
-            <div className="text-2xl font-bold">6</div>
+            <div className="text-2xl font-bold">5</div>
             <div className="text-sm">Total Slots</div>
           </div>
         </div>
