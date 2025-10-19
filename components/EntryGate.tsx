@@ -1,21 +1,44 @@
 'use client'
 
+import { useState, useCallback } from 'react'
+
 interface EntryGateProps {
   distance: number
   isConnected: boolean
   lastUpdate: string
+  onVehicleDetected?: () => void
 }
 
-export default function EntryGate({ distance, isConnected, lastUpdate }: EntryGateProps) {
+export default function EntryGate({ distance, isConnected, lastUpdate, onVehicleDetected }: EntryGateProps) {
+  const [autoTriggerActive, setAutoTriggerActive] = useState(false)
   const isVehicleDetected = distance > 0 && distance < 100
+
+  // Auto-trigger logic when vehicle is detected
+  useCallback(() => {
+    if (isVehicleDetected && !autoTriggerActive && onVehicleDetected) {
+      setAutoTriggerActive(true)
+
+      // 2.5 second delay before triggering recommendation
+      const timer = setTimeout(() => {
+        onVehicleDetected()
+        setAutoTriggerActive(false)
+      }, 2500)
+
+      return () => clearTimeout(timer)
+    } else if (!isVehicleDetected) {
+      setAutoTriggerActive(false)
+    }
+  }, [isVehicleDetected, autoTriggerActive, onVehicleDetected])
 
   const getStatusColor = () => {
     if (!isConnected) return 'bg-gray-500 border-gray-400'
+    if (autoTriggerActive) return 'bg-yellow-500 border-yellow-400 animate-pulse'
     return isVehicleDetected ? 'bg-blue-500 border-blue-400' : 'bg-green-500 border-green-400'
   }
 
   const getStatusText = () => {
     if (!isConnected) return 'OFFLINE'
+    if (autoTriggerActive) return 'MENYIAPKAN REKOMENDASI...'
     return isVehicleDetected ? 'MOBIL TERDETEKSI' : 'SIAP'
   }
 
