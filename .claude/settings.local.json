@@ -4,7 +4,8 @@
       "mcp__sequential-thinking__sequentialthinking",
       "mcp__playwright__playwright_screenshot",
       "mcp__playwright__playwright_close",
-      "mcp__context7__resolve-library-id"
+      "mcp__context7__resolve-library-id",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
