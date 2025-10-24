@@ -22,13 +22,16 @@ export const useParkingData = (): UseParkingDataReturn => {
   const [error, setError] = useState<string | null>(null);
 
   // Fetch initial data
-  const fetchParkingSlots = useCallback(async () => {
+  const fetchParkingSlots = useCallback(async (isPolling = false) => {
     try {
-      setIsLoading(true);
+      // Only show loading state for initial fetch, not for polling
+      if (!isPolling) {
+        setIsLoading(true);
+      }
       setError(null);
       const data = await getParkingSlots();
 
-      // Ensure we have exactly 6 slots (create empty ones if needed)
+      // Ensure we have exactly 5 slots (create empty ones if needed)
       const normalizedSlots: ParkingSlot[] = [];
       for (let i = 1; i <= 5; i++) {
         const existingSlot = data.find((slot) => slot.slot === i);
@@ -46,7 +49,11 @@ export const useParkingData = (): UseParkingDataReturn => {
         }
       }
 
-      setSlots(normalizedSlots);
+      // Only update state if data actually changed (avoid unnecessary re-renders)
+      setSlots((prevSlots) => {
+        const hasChanged = JSON.stringify(prevSlots) !== JSON.stringify(normalizedSlots);
+        return hasChanged ? normalizedSlots : prevSlots;
+      });
       setIsConnected(true);
     } catch (err) {
       console.error("Error fetching parking data:", err);
@@ -55,7 +62,9 @@ export const useParkingData = (): UseParkingDataReturn => {
       );
       setIsConnected(false);
     } finally {
-      setIsLoading(false);
+      if (!isPolling) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -75,16 +84,21 @@ export const useParkingData = (): UseParkingDataReturn => {
 
   useEffect(() => {
     // Load initial data
-    fetchParkingSlots();
+    fetchParkingSlots(false);
 
     // Setup real-time subscription
     const channel = subscribeToParkingChanges(handleRealtimeUpdate);
+
+    // Setup polling every 1 second (guaranteed updates like HTML version)
+    const pollingInterval = setInterval(() => {
+      fetchParkingSlots(true); // Mark as polling to avoid loading states
+    }, 1000);
 
     // Handle connection status
     channel.on("system", { event: "*" }, (status) => {
       if (status.event === "CHANNEL_ERROR") {
         setIsConnected(false);
-        setError("Connection lost. Attempting to reconnect...");
+        setError("Connection lost. Using polling updates...");
       }
 
       if (status.event === "CONNECTED") {
@@ -93,9 +107,10 @@ export const useParkingData = (): UseParkingDataReturn => {
       }
     });
 
-    // Cleanup subscription on unmount
+    // Cleanup subscription and polling on unmount
     return () => {
       channel.unsubscribe();
+      clearInterval(pollingInterval);
     };
   }, [fetchParkingSlots, handleRealtimeUpdate]);
 

@@ -85,7 +85,7 @@ export default function ParkingRecommendation({ autoTrigger = false }: { autoTri
 
         {/* Action Button */}
         <button
-          onClick={getRecommendation}
+          onClick={() => getRecommendation("manual")}
           disabled={loading}
           className={`
             w-full py-4 px-6 rounded-xl font-bold text-white

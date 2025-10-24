@@ -12,6 +12,7 @@ export default function ParkingGrid() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
           <p className="text-white mt-4 text-lg">Loading parking data...</p>
+          <p className="text-slate-400 text-sm mt-2">Setting up real-time connection</p>
         </div>
       </div>
     );
@@ -26,10 +27,14 @@ export default function ParkingGrid() {
           <p className="text-red-300 text-sm mb-6">{error}</p>
           <button
             onClick={refetch}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors mr-3"
           >
             Try Again
           </button>
+          <div className="inline-flex items-center text-slate-400 text-sm mt-3">
+            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-2"></div>
+            Polling updates may still be active
+          </div>
         </div>
       </div>
     );
@@ -47,19 +52,26 @@ export default function ParkingGrid() {
         </p>
 
         {/* Connection Status */}
-        <div className="flex items-center justify-center mt-4">
-          <div
-            className={`w-3 h-3 rounded-full mr-2 ${
-              isConnected ? "bg-green-400 animate-pulse" : "bg-red-400"
-            }`}
-          ></div>
-          <span
-            className={`text-sm ${
-              isConnected ? "text-green-300" : "text-red-300"
-            }`}
-          >
-            {isConnected ? "CONNECTED" : "DISCONNECTED"}
-          </span>
+        <div className="flex items-center justify-center mt-4 space-x-6">
+          <div className="flex items-center">
+            <div
+              className={`w-3 h-3 rounded-full mr-2 ${
+                isConnected ? "bg-green-400 animate-pulse" : "bg-red-400"
+              }`}
+            ></div>
+            <span
+              className={`text-sm ${
+                isConnected ? "text-green-300" : "text-red-300"
+              }`}
+            >
+              {isConnected ? "REALTIME" : "POLLING"}
+            </span>
+          </div>
+
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse mr-2"></div>
+            <span className="text-blue-300 text-sm">1-SEC UPDATES</span>
+          </div>
         </div>
       </div>
 
