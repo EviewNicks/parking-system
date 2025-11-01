@@ -130,3 +130,90 @@ Real-time Monitoring • 5 Parking Slots
 - Statistics dashboard
 
 **Note**: Component ini tersedia tapi tidak digunakan di layout MVP saat ini. Dibuat untuk future enhancement jika diperlukan fitur access control yang lebih kompleks.
+
+---
+
+## ThemeToggle
+
+**File**: `components/ThemeToggle.tsx`
+
+**Deskripsi**: UI component untuk toggle button dark/light mode dengan smooth animation.
+
+**Features**:
+- Sun/Moon icons dari lucide-react
+- Smooth rotation animation saat toggle
+- Loading state placeholder untuk SSR
+- Accessible dengan ARIA labels
+- Hover effects dengan ring indicator
+
+**Props**: None (menggunakan useThemeContext internally)
+
+**Usage**:
+```tsx
+import ThemeToggle from '@/components/ThemeToggle'
+
+export default function Header() {
+  return (
+    <div className="flex justify-between">
+      <h1>Smart Parking System</h1>
+      <ThemeToggle />
+    </div>
+  )
+}
+```
+
+**Visual States**:
+- Light mode: Sun icon (yellow) visible
+- Dark mode: Moon icon (blue) visible
+- Transition: Rotate animation (90deg)
+
+**Accessibility**: Includes aria-label dan title untuk screen readers
+
+---
+
+## ThemeProvider
+
+**File**: `components/ThemeProvider.tsx`
+
+**Deskripsi**: Context provider untuk global theme state management.
+
+**Features**:
+- React Context untuk theme state
+- Wraps entire app untuk global access
+- Custom hook `useThemeContext()` untuk consume context
+- Error handling jika used outside provider
+
+**Props**:
+```typescript
+interface ThemeProviderProps {
+  children: React.ReactNode
+}
+```
+
+**Usage**:
+```tsx
+// app/layout.tsx
+import { ThemeProvider } from '@/components/ThemeProvider'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+
+// Di komponen lain
+import { useThemeContext } from '@/components/ThemeProvider'
+
+function MyComponent() {
+  const { theme, toggleTheme } = useThemeContext()
+  // ...
+}
+```
+
+**Context API**: Exports `useThemeContext()` hook untuk access theme state

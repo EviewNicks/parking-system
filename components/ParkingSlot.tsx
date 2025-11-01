@@ -45,7 +45,7 @@ export default function ParkingSlot({ slot, isConnected }: ParkingSlotProps) {
   return (
     <div className={`relative p-6 rounded-xl border-2 transition-all duration-300 hover:scale-105 shadow-lg ${getStatusColor()}`}>
       {/* Slot Number */}
-      <div className="absolute -top-3 -left-3 bg-slate-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+      <div className="absolute -top-3 -left-3 bg-slate-700 dark:bg-slate-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
         {slot.slot}
       </div>
 

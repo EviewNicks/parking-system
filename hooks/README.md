@@ -104,6 +104,60 @@ function MyComponent() {
 
 ---
 
+## useTheme
+
+**File**: `hooks/useTheme.ts`
+
+**Deskripsi**: Custom hook untuk dark mode theme management dengan localStorage persistence dan system preference detection.
+
+**Return Values**:
+```typescript
+interface UseThemeReturn {
+  theme: Theme                           // Current theme ('light' | 'dark' | 'system')
+  setTheme: (theme: Theme) => void      // Set theme function
+  toggleTheme: () => void               // Toggle between light/dark
+  effectiveTheme: 'light' | 'dark'      // Actual applied theme
+  mounted: boolean                       // Client-side mount status
+}
+```
+
+**Features**:
+- localStorage persistence (key: 'parking-system-theme')
+- System preference detection via prefers-color-scheme
+- Auto-apply theme ke HTML element dengan 'dark' class
+- SSR/hydration safe dengan mounted state
+- Listen system preference changes
+
+**Usage**:
+```tsx
+import { useTheme } from '@/hooks/useTheme'
+
+function MyComponent() {
+  const { theme, setTheme, toggleTheme, effectiveTheme, mounted } = useTheme()
+
+  if (!mounted) return <div>Loading...</div>
+
+  return (
+    <div>
+      <p>Current theme: {effectiveTheme}</p>
+      <button onClick={toggleTheme}>Toggle Theme</button>
+      <button onClick={() => setTheme('system')}>Use System</button>
+    </div>
+  )
+}
+```
+
+**Theme Options**:
+- `'light'` - Force light mode
+- `'dark'` - Force dark mode
+- `'system'` - Follow system preference (auto-detect)
+
+**Storage**: localStorage dengan key `parking-system-theme`
+
+**CSS Integration**: Applies 'dark' class ke `<html>` element untuk Tailwind dark mode
+
+---
+
 ## Best Practices
 
 ### Error Handling

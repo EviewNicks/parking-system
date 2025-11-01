@@ -72,13 +72,13 @@ export default function ParkingRecommendation({ autoTrigger = false }: { autoTri
   return (
     <div className="w-full max-w-md mx-auto mb-8">
       {/* Main Recommendation Card */}
-      <div className="bg-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-700">
+      <div className="bg-slate-200 dark:bg-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-300 dark:border-slate-700">
         {/* Header */}
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-white mb-2">
+          <h2 className="text-2xl font-bold text-foreground mb-2">
             🎯 Rekomendasi Parkir
           </h2>
-          <p className="text-slate-300 text-sm">
+          <p className="text-muted-foreground text-sm">
             Temukan slot parkir terdekat dari pintu masuk
           </p>
         </div>
@@ -131,13 +131,13 @@ export default function ParkingRecommendation({ autoTrigger = false }: { autoTri
             </div>
 
             {/* Slot Information */}
-            <div className="bg-slate-900/50 rounded-lg p-4 mb-4">
+            <div className="bg-slate-700/50 dark:bg-slate-900/50 rounded-lg p-4 mb-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-1">
+                  <h3 className="text-3xl font-bold text-foreground mb-1">
                     SLOT {recommendation.slot}
                   </h3>
-                  <p className="text-green-400 text-lg font-mono">
+                  <p className="text-green-500 dark:text-green-400 text-lg font-mono">
                     📍 {recommendation.distance}m dari pintu masuk
                   </p>
                 </div>
@@ -149,13 +149,13 @@ export default function ParkingRecommendation({ autoTrigger = false }: { autoTri
 
             {/* Additional Information */}
             <div className="grid grid-cols-2 gap-3 text-sm mb-3">
-              <div className="bg-slate-800/50 rounded-lg p-3 text-center">
-                <p className="text-slate-400">Status</p>
-                <p className="text-green-400 font-bold">TERSEDIA</p>
+              <div className="bg-slate-300/50 dark:bg-slate-800/50 rounded-lg p-3 text-center">
+                <p className="text-muted-foreground">Status</p>
+                <p className="text-green-500 dark:text-green-400 font-bold">TERSEDIA</p>
               </div>
-              <div className="bg-slate-800/50 rounded-lg p-3 text-center">
-                <p className="text-slate-400">Koordinat</p>
-                <p className="text-blue-400 font-mono text-xs">
+              <div className="bg-slate-300/50 dark:bg-slate-800/50 rounded-lg p-3 text-center">
+                <p className="text-muted-foreground">Koordinat</p>
+                <p className="text-blue-500 dark:text-blue-400 font-mono text-xs">
                   ({recommendation.coordinate_x}, {recommendation.coordinate_y})
                 </p>
               </div>
@@ -178,7 +178,7 @@ export default function ParkingRecommendation({ autoTrigger = false }: { autoTri
             {/* Last Updated */}
             {lastUpdated && (
               <div className="mt-4 text-center">
-                <p className="text-slate-400 text-xs">
+                <p className="text-muted-foreground text-xs">
                   Diperbarui: {lastUpdated}
                 </p>
               </div>
@@ -188,8 +188,8 @@ export default function ParkingRecommendation({ autoTrigger = false }: { autoTri
 
         {/* Tips */}
         <div className="mt-6 text-center">
-          <p className="text-slate-400 text-sm">
-            💡 <span className="text-yellow-400">Tips:</span> Sistem menggunakan perhitungan jarak Euclidean
+          <p className="text-muted-foreground text-sm">
+            💡 <span className="text-yellow-500 dark:text-yellow-400">Tips:</span> Sistem menggunakan perhitungan jarak Euclidean
             untuk menemukan slot parkir terdekat dari pintu masuk
           </p>
         </div>

@@ -8,11 +8,11 @@ export default function ParkingGrid() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
-          <p className="text-white mt-4 text-lg">Loading parking data...</p>
-          <p className="text-slate-400 text-sm mt-2">Setting up real-time connection</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground mx-auto"></div>
+          <p className="text-foreground mt-4 text-lg">Loading parking data...</p>
+          <p className="text-muted-foreground text-sm mt-2">Setting up real-time connection</p>
         </div>
       </div>
     );
@@ -20,18 +20,18 @@ export default function ParkingGrid() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-400 text-4xl mb-4">⚠️</div>
-          <p className="text-white text-lg mb-4">Connection Error</p>
-          <p className="text-red-300 text-sm mb-6">{error}</p>
+          <p className="text-foreground text-lg mb-4">Connection Error</p>
+          <p className="text-red-400 dark:text-red-300 text-sm mb-6">{error}</p>
           <button
             onClick={refetch}
             className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors mr-3"
           >
             Try Again
           </button>
-          <div className="inline-flex items-center text-slate-400 text-sm mt-3">
+          <div className="inline-flex items-center text-muted-foreground text-sm mt-3">
             <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-2"></div>
             Polling updates may still be active
           </div>
@@ -44,10 +44,10 @@ export default function ParkingGrid() {
     <div>
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-white mb-2">
+        <h1 className="text-4xl font-bold text-foreground mb-2">
           🚗 Smart Parking System
         </h1>
-        <p className="text-slate-300 text-lg">
+        <p className="text-muted-foreground text-lg">
           Real-time Monitoring • 5 Parking Slots
         </p>
 
@@ -61,7 +61,7 @@ export default function ParkingGrid() {
             ></div>
             <span
               className={`text-sm ${
-                isConnected ? "text-green-300" : "text-red-300"
+                isConnected ? "text-green-500 dark:text-green-300" : "text-red-500 dark:text-red-300"
               }`}
             >
               {isConnected ? "REALTIME" : "POLLING"}
@@ -70,7 +70,7 @@ export default function ParkingGrid() {
 
           <div className="flex items-center">
             <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse mr-2"></div>
-            <span className="text-blue-300 text-sm">1-SEC UPDATES</span>
+            <span className="text-blue-500 dark:text-blue-300 text-sm">1-SEC UPDATES</span>
           </div>
         </div>
       </div>
@@ -78,9 +78,9 @@ export default function ParkingGrid() {
       {/* Parking Lot Layout */}
       <div>
         {/* Parking Grid - Realistic Layout */}
-        <div className="relative bg-slate-900 rounded-2xl p-8 shadow-2xl">
+        <div className="relative bg-slate-200 dark:bg-slate-900 rounded-2xl p-8 shadow-2xl">
           {/* Road Markings */}
-          <div className="absolute inset-4 border-2 border-dashed border-yellow-400 rounded-xl opacity-30"></div>
+          <div className="absolute inset-4 border-2 border-dashed border-yellow-500 dark:border-yellow-400 rounded-xl opacity-30"></div>
 
           {/* Grid Container - 2x3 Layout */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -94,11 +94,11 @@ export default function ParkingGrid() {
 
           {/* Middle Road - Driveway */}
           <div className="my-8 flex items-center justify-center">
-            <div className="flex-1 h-1 bg-yellow-400 opacity-50"></div>
-            <div className="px-4 text-yellow-400 text-sm font-mono">
+            <div className="flex-1 h-1 bg-yellow-500 dark:bg-yellow-400 opacity-50"></div>
+            <div className="px-4 text-yellow-600 dark:text-yellow-400 text-sm font-mono">
               DRIVE WAY
             </div>
-            <div className="flex-1 h-1 bg-yellow-400 opacity-50"></div>
+            <div className="flex-1 h-1 bg-yellow-500 dark:bg-yellow-400 opacity-50"></div>
           </div>
 
           {/* Second Grid - Slots 4-5 */}

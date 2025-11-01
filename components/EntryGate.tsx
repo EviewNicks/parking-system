@@ -53,7 +53,7 @@ export default function EntryGate({ distance, isConnected, lastUpdate, onVehicle
   return (
     <div className={`relative p-6 rounded-xl border-2 transition-all duration-300 shadow-lg ${getStatusColor()}`}>
       {/* Gate Label */}
-      <div className="absolute -top-3 -left-3 bg-slate-800 text-white rounded-full w-10 h-10 flex items-center justify-center text-xs font-bold">
+      <div className="absolute -top-3 -left-3 bg-slate-700 dark:bg-slate-800 text-white rounded-full w-10 h-10 flex items-center justify-center text-xs font-bold">
         ENTRY
       </div>
 
